@@ -1,3 +1,4 @@
+@import "antd/dist/antd.css";
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -13,6 +14,9 @@
     --foreground-rgb: 255, 255, 255;
     --background-start-rgb: 0, 0, 0;
     --background-end-rgb: 0, 0, 0;
+    --ant-primary-color: #fa8c16;
+    --ant-primary-color-hover: #d46b08;
+    --ant-primary-color-active: #ad4e00;
   }
 }
 
@@ -24,4 +28,14 @@ body {
       rgb(var(--background-end-rgb))
     )
     rgb(var(--background-start-rgb));
+  font-size: 16px;
+}
+
+.ant-btn-primary {
+  background-color: #fa8c16 !important;
+  border-color: #fa8c16 !important;
+}
+
+.ant-menu-item-selected {
+  background-color: #fa8c16 !important;
 }
