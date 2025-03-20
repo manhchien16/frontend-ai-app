@@ -33,11 +33,11 @@ const UttLayout: React.FC<Props> = ({ children }) => {
         trigger={null}
         collapsible
         collapsed={collapsed}
-        width={200}
         style={{
           transition: "all 0.3s ease-in-out",
           overflow: "hidden",
           position: "fixed",
+          zIndex: 0,
           left: collapsed ? "-200px" : "0",
           height: "100vh",
         }}

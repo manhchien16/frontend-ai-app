@@ -11,7 +11,9 @@ const ChatBot: React.FC = () => {
     bot_response: string;
   }
 
-  const [dataBot, setDataBot] = useState<BotResponse | any>(null);
+  const [dataBot, setDataBot] = useState<BotResponse | any>({
+    bot_response: BOT_RES.HELLO,
+  });
 
   const fetchData = useCallback(async (data: string) => {
     if (!data.trim()) return;

@@ -4,6 +4,7 @@ import { LikeOutlined, DislikeOutlined, UserOutlined } from "@ant-design/icons";
 import { Modal, Input, Button } from "antd";
 import type { MessageProps as ChatUIMessageProps } from "@chatui/core";
 import { title } from "process";
+import Image from "next/image";
 
 const ChatUI = dynamic(() => import("@chatui/core"), { ssr: false });
 const Bubble = dynamic(() => import("@chatui/core").then((mod) => mod.Bubble), {
@@ -84,7 +85,7 @@ function ChatBot({
       if (!dataBot.bot_response) {
         const newList = dataBot.map(
           (item: { match: string; score: number }) => ({
-            title: item.match,
+            title: item.match + " (Similarity: " + item.score.toFixed(4) + ")",
           })
         );
 
@@ -96,8 +97,7 @@ function ChatBot({
               list: newList,
             },
           },
-          avatar:
-            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT30M8p6x0eWujPG_7qzIKHSCnH0raS7lPXOQ&s",
+          avatar: "/images/avatabot.jpeg",
           msgId: botMsgId,
           position: "left",
         });
@@ -105,8 +105,7 @@ function ChatBot({
         appendMsg({
           type: "text",
           content: { text: dataBot.bot_response },
-          avatar:
-            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT30M8p6x0eWujPG_7qzIKHSCnH0raS7lPXOQ&s",
+          avatar: "/images/avatabot.jpeg",
           msgId: botMsgId,
           position: "left",
         });
@@ -177,15 +176,14 @@ function ChatBot({
       <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
         {isBotMessage && (
           <div style={{ display: "flex", alignItems: "center" }}>
-            <img
-              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT30M8p6x0eWujPG_7qzIKHSCnH0raS7lPXOQ&s"
+            <Image
+              src="/images/avatabot.jpeg"
               alt="Bot"
+              width={30}
+              height={30}
               style={{
-                minWidth: "30px",
-                minHeight: "30px",
-                maxWidth: "30px",
-                maxHeight: "30px",
                 borderRadius: "50%",
+                objectFit: "cover",
               }}
             />
           </div>
