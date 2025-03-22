@@ -1,7 +1,7 @@
 "use client";
 
 import services from "@/api/service/app";
-import ChatAi from "@/share/components/test";
+import ChatAi from "@/share/components/chat";
 import { BOT_RES } from "@/share/constants/app";
 import { useCallback, useEffect, useState } from "react";
 

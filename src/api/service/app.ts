@@ -6,7 +6,7 @@ const createEndpoint = (basePath: string) => (id?: string) =>
 
 const endpoints = {
   CHATBOT: createEndpoint("/chatbot/asks"),
-  UPDATE_FEEDBACK: (id?: string) => `/chatbot/${id}/feedback`,
+  UPDATE_FEEDBACK: (id?: string) => `/chatlog/${id}/feedback`,
   CHATBYGPT: createEndpoint("/chatbot/askbygpt"),
 };
 

@@ -8,3 +8,9 @@ export const BOT_RES = {
   HELLO:
     "Xin chào, mình là một Ai Chatbot hỗ trợ tuyển sinh của trường Đại Học Công Nghệ Giao Thông Vận Tài, mình có thể giúp gì cho bạn?",
 };
+
+export const LABELS_MENU = {
+  CHATBOT_PAGE: "ChatBot Tuyển Sinh",
+  INFO_PAGE: "Thông Tin UTT",
+  SEARCH_PAGE: "Tra Cứu Tuyển Sinh",
+};

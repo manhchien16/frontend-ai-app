@@ -3,6 +3,8 @@ import React, { useState, useEffect } from "react";
 import { LikeOutlined, DislikeOutlined, UserOutlined } from "@ant-design/icons";
 import { Modal, Input, Button } from "antd";
 import type { MessageProps as ChatUIMessageProps } from "@chatui/core";
+import { marked } from "marked";
+import Image from "next/image";
 
 const ChatUI = dynamic(() => import("@chatui/core"), { ssr: false });
 const Bubble = dynamic(() => import("@chatui/core").then((mod) => mod.Bubble), {
@@ -16,6 +18,7 @@ interface MessageProps extends ChatUIMessageProps {
 interface ChatAiProps {
   setDataFeedback: (userFeedback: string, id: string) => void;
   setDataUser: (userChat: string) => void;
+  setChatGPT: (serChat: string) => void;
   dataBot: any;
   isFetchingData: boolean;
 }
@@ -23,6 +26,7 @@ interface ChatAiProps {
 export default function ChatAi({
   setDataFeedback,
   setDataUser,
+  setChatGPT,
   dataBot,
   isFetchingData,
 }: ChatAiProps) {
@@ -41,6 +45,7 @@ export default function ChatAi({
       chatUI={chatUI}
       setDataFeedback={setDataFeedback}
       setDataUser={setDataUser}
+      setChatGPT={setChatGPT}
       dataBot={dataBot}
       isFetchingData={isFetchingData}
     />
@@ -51,12 +56,14 @@ function ChatBot({
   chatUI,
   setDataFeedback,
   setDataUser,
+  setChatGPT,
   dataBot,
   isFetchingData,
 }: {
   chatUI: any;
   setDataFeedback: (userFeedback: string, id: string) => void;
   setDataUser: (userChat: string) => void;
+  setChatGPT: (userChat: string) => void;
   dataBot: any;
   isFetchingData: boolean;
 }) {
@@ -70,19 +77,45 @@ function ChatBot({
     msgId: string | null;
   }>({ visible: false, msgId: null });
   const [comment, setComment] = useState<string>("");
+  const [resend, setResend] = useState<string>("");
 
   useEffect(() => {
     if (dataBot && !isFetchingData) {
       const botMsgId = dataBot._id;
+      if (!dataBot.bot_response) {
+        const newList = dataBot.map(
+          (item: { match: string; score: number }) => ({
+            title: item.match + " (Similarity: " + item.score.toFixed(4) + ")",
+          })
+        );
 
-      appendMsg({
-        type: "text",
-        content: { text: dataBot.bot_response },
-        avatar:
-          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT30M8p6x0eWujPG_7qzIKHSCnH0raS7lPXOQ&s",
-        msgId: botMsgId,
-        position: "left",
-      });
+        appendMsg({
+          type: "text",
+          content: {
+            code: "recommend",
+            data: {
+              list: newList,
+            },
+          },
+          avatar: "/images/avatabot.jpeg",
+          msgId: botMsgId,
+          position: "left",
+        });
+      } else {
+        let newMessage = "";
+        if (dataBot?.bestQuestion) {
+          newMessage = `**🔹 Có phải bạn hỏi:**\n "${dataBot.bestQuestion}"\n\n **🔹Theo thông tin chính thức:**\n${dataBot.bot_response}`;
+        } else {
+          newMessage = `${dataBot.bot_response}`;
+        }
+        appendMsg({
+          type: "text",
+          content: { text: newMessage },
+          avatar: "/images/avatabot.jpeg",
+          msgId: botMsgId,
+          position: "left",
+        });
+      }
 
       setTyping(false);
     }
@@ -112,6 +145,24 @@ function ChatBot({
     }
   }
 
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setResend(event.target.value);
+  };
+
+  const handleSendInput = () => {
+    if (resend.trim() !== "") {
+      setChatGPT(resend);
+      appendMsg({
+        type: "text",
+        content: { text: resend },
+        position: "right",
+      });
+
+      setTyping(true);
+      setResend("");
+    }
+  };
+
   function handleSubmitComment() {
     if (commentModal.msgId) {
       setDataFeedback(comment, commentModal.msgId);
@@ -131,19 +182,19 @@ function ChatBot({
       <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
         {isBotMessage && (
           <div style={{ display: "flex", alignItems: "center" }}>
-            <img
-              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT30M8p6x0eWujPG_7qzIKHSCnH0raS7lPXOQ&s"
+            <Image
+              src="/images/avatabot.jpeg"
               alt="Bot"
+              width={30}
+              height={30}
               style={{
-                minWidth: "30px",
-                minHeight: "30px",
-                maxWidth: "30px",
-                maxHeight: "30px",
                 borderRadius: "50%",
+                objectFit: "cover",
               }}
             />
           </div>
         )}
+
         <div
           style={{
             display: "flex",
@@ -151,7 +202,83 @@ function ChatBot({
             alignItems: isBotMessage ? "flex-start" : "flex-end",
           }}
         >
-          <Bubble content={msg.content?.text || ""} />
+          {msg.content?.code === "recommend" && msg.content?.data?.list ? (
+            <div
+              style={{ padding: 10, background: "#f5f5f5", borderRadius: 5 }}
+            >
+              {(msg.content.data.list as { title: string; url?: string }[]).map(
+                (item, index) => (
+                  <div
+                    key={index}
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      padding: "5px",
+                      borderRadius: "8px",
+                      border: `1px solid #fa8c16`,
+                      backgroundColor: "#fa8c16",
+                      color: "#fff",
+                      marginBottom: "8px",
+                      cursor: "pointer",
+                      fontSize: "14px",
+                    }}
+                    onClick={() => handleSend("text", item.title)}
+                  >
+                    <span style={{ marginRight: "8px", color: "#fff" }}>
+                      {index + 1 + "."}
+                    </span>
+                    <span>{item.title}</span>
+                  </div>
+                )
+              )}
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  marginTop: "8px",
+                }}
+              >
+                <input
+                  type="text"
+                  placeholder="Viết Lại Câu Hỏi Chi Tiết Hơn..."
+                  onChange={handleInputChange}
+                  style={{
+                    flex: 1,
+                    padding: "10px",
+                    fontSize: "14px",
+                    borderRadius: "8px",
+                    border: "1px solid #ffac36",
+                    outline: "none",
+                    marginRight: "8px",
+                  }}
+                />
+                <button
+                  style={{
+                    padding: "10px 16px",
+                    backgroundColor: "#ffac36",
+                    color: "#fff",
+                    border: "none",
+                    borderRadius: "8px",
+                    cursor: "pointer",
+                    fontSize: "14px",
+                  }}
+                  onClick={handleSendInput}
+                >
+                  Gửi
+                </button>
+              </div>
+            </div>
+          ) : (
+            // <Bubble content={msg.content?.text || ""} />
+            <Bubble>
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: marked.parse(msg.content.text),
+                }}
+              />
+            </Bubble>
+          )}
+
           {isBotMessage && msg.msgId && (
             <div style={{ marginTop: 5, display: "flex", gap: 10 }}>
               <LikeOutlined
@@ -189,6 +316,7 @@ function ChatBot({
         onSend={handleSend}
       />
       <Modal
+        style={{ borderRadius: "15px" }}
         title="Nhập phản hồi"
         open={commentModal.visible}
         onCancel={() => setCommentModal({ visible: false, msgId: null })}

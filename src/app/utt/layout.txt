@@ -6,6 +6,7 @@ import React, { useState, useEffect, ReactNode } from "react";
 import "./layout.css";
 import { Footer } from "antd/lib/layout/layout";
 import MenuComponents from "@/share/components/Menu";
+import Image from "next/image";
 
 const { Header, Sider, Content } = Layout;
 
@@ -43,10 +44,11 @@ const UttLayout: React.FC<Props> = ({ children }) => {
         }}
       >
         <div className="logo p-2">
-          <img
-            src="https://utt.edu.vn/uploads/images/site/1722045380banner-utt.png"
+          <Image
+            src="/images/banner-utt.png"
             alt="Logo"
-            style={{ width: "100%" }}
+            width={500}
+            height={200}
           />
         </div>
         <MenuComponents />

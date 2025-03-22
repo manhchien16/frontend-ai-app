@@ -1,122 +1,76 @@
-// "use client";
-// import "@chatui/core/dist/index.css";
-// import {
-//   MenuFoldOutlined,
-//   MenuUnfoldOutlined,
-//   RobotOutlined,
-//   SearchOutlined,
-//   SolutionOutlined,
-// } from "@ant-design/icons";
-// import { Layout, Menu } from "antd";
-// import React, { useState, useEffect } from "react";
-// import "./layout.css";
-// import ChatAi from "@/components/chat";
-// import { Footer } from "antd/lib/layout/layout";
-// import MenuComponents from "@/components/share/Menu";
+"use client";
 
-// const { Header, Sider, Content } = Layout;
+import services from "@/api/service/app";
+import ChatAi from "@/share/components/chat";
+import { BOT_RES } from "@/share/constants/app";
+import { useCallback, useEffect, useState } from "react";
 
-// const Home: React.FC = () => {
-//   const [collapsed, setCollapsed] = useState(false);
+const Home: React.FC = () => {
+  const [isFetchingData, setIsFetchingData] = useState(false);
+  interface BotResponse {
+    bot_response: string;
+  }
 
-//   useEffect(() => {
-//     const handleResize = () => {
-//       setCollapsed(window.innerWidth < 768);
-//     };
+  const [dataBot, setDataBot] = useState<BotResponse | any>({
+    bot_response: BOT_RES.HELLO,
+  });
 
-//     handleResize();
-//     window.addEventListener("resize", handleResize);
+  const fetchData = useCallback(async (data: string) => {
+    if (!data.trim()) return;
 
-//     return () => window.removeEventListener("resize", handleResize);
-//   }, []);
+    setIsFetchingData(true);
+    try {
+      const res = await services.chatBotService.indexChatBot({
+        data: { userQuery: data },
+      });
 
-//   return (
-//     <Layout style={{ minHeight: "100%" }}>
-//       <Sider
-//         trigger={null}
-//         collapsible
-//         collapsed={collapsed}
-//         width={200}
-//         style={{
-//           transition: "all 0.3s ease-in-out",
-//           overflow: "hidden",
-//           position: "fixed",
-//           left: collapsed ? "-200px" : "0",
-//           height: "100vh",
-//         }}
-//       >
-//         <div className="logo p-2">
-//           <img
-//             src="https://utt.edu.vn/uploads/images/site/1722045380banner-utt.png"
-//             alt="Logo"
-//             style={{ width: "100%" }}
-//           />
-//         </div>
-//         <MenuComponents />
-//       </Sider>
+      setDataBot(res.data);
+    } catch (error) {
+    } finally {
+      setIsFetchingData(false);
+    }
+  }, []);
+  const fetchDataByGPT = useCallback(async (data: string) => {
+    if (!data.trim()) return;
 
-//       <Layout
-//         className="site-layout"
-//         style={{
-//           marginLeft: collapsed ? "0" : "200px",
-//           transition: "margin-left 0.3s ease-in-out",
-//         }}
-//       >
-//         <Header
-//           className="site-layout-background"
-//           style={{
-//             padding: "0 20px",
-//             display: "flex",
-//             alignItems: "center",
-//             justifyContent: "space-between",
-//             minHeight: "74px",
-//           }}
-//         >
-//           {React.createElement(
-//             collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
-//             {
-//               className: "trigger",
-//               onClick: () => setCollapsed(!collapsed),
-//               style: { fontSize: "18px", cursor: "pointer" },
-//             }
-//           )}
+    setIsFetchingData(true);
+    try {
+      const res = await services.chatBotService.chatBotByGPT({
+        data: { userQuery: data },
+      });
 
-//           <div
-//             style={{
-//               flex: 1,
-//               display: "flex",
-//               justifyContent: "center",
-//             }}
-//           >
-//             <img
-//               src="https://utt.edu.vn/uploads/images/site/1722045380banner-utt.png"
-//               alt="Logo"
-//             />
-//           </div>
-//         </Header>
+      setDataBot(res.data);
+    } catch (error) {
+    } finally {
+      setIsFetchingData(false);
+    }
+  }, []);
+  const updateCommentForChat = useCallback(async (data: string, id: string) => {
+    if (!data.trim()) return;
 
-//         <Content
-//           className="site-layout-background"
-//           style={{
-//             padding: 24,
-//             height: "calc(100vh - 74px)",
-//             overflow: "hidden",
-//             display: "flex",
-//             flexDirection: "column",
-//           }}
-//         >
-//           <ChatAi />
-//         </Content>
-//         <Footer style={{ textAlign: "center" }}>
-//           MCHIEN Design ©{new Date().getFullYear()} Created by UTT UED
-//         </Footer>
-//       </Layout>
-//     </Layout>
-//   );
-// };
+    setIsFetchingData(true);
+    try {
+      await services.chatBotService.updateFeedback({
+        id: id,
+        data: { feedback: data },
+      });
 
-// export default Home;
+      setDataBot({ bot_response: BOT_RES.THANKS });
+    } catch (error) {
+    } finally {
+      setIsFetchingData(false);
+    }
+  }, []);
 
-export default function Home() {
-  return <h1>404</h1>;
-}
+  return (
+    <ChatAi
+      setDataFeedback={updateCommentForChat}
+      setDataUser={fetchData}
+      setChatGPT={fetchDataByGPT}
+      dataBot={dataBot}
+      isFetchingData={isFetchingData}
+    />
+  );
+};
+
+export default Home;
