@@ -1,5 +1,6 @@
 import { BASE_API } from "@/share/constants/app";
 import axios from "axios";
+const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
 interface IInstance {
   [key: string]: {
@@ -9,7 +10,7 @@ interface IInstance {
 }
 
 const instance = axios.create({
-  baseURL: BASE_API,
+  baseURL: apiUrl || BASE_API,
   responseType: "json",
   headers: {
     "Content-Type": "application/json",
