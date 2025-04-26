@@ -2,6 +2,7 @@ import Sider from "antd/lib/layout/Sider";
 import Image from "next/image";
 import MenuComponents from "./Menu";
 import { useEffect, useState } from "react";
+import "./scss/slider.module.scss";
 
 const SiderComponent = () => {
   const [collapsed, setCollapsed] = useState(false);
@@ -22,10 +23,12 @@ const SiderComponent = () => {
 
   return (
     <Sider
+      className="sider-container"
       trigger={null}
       collapsible
       collapsed={collapsed}
       style={{
+        width: "100vw",
         transition: "all 0.3s ease-in-out",
         overflow: "hidden",
         position: "fixed",

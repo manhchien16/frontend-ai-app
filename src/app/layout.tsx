@@ -12,6 +12,7 @@ import MenuComponents from "@/share/components/Menu";
 import Image from "next/image";
 import "antd/dist/antd.css";
 import { ConfigProvider } from "antd";
+import HeaderComponent from "@/share/components/layout/Header";
 
 const { Header, Sider, Content } = Layout;
 
@@ -71,40 +72,10 @@ const RootLayout: React.FC<Props> = ({ children }) => {
                 transition: "margin-left 0.3s ease-in-out",
               }}
             >
-              <Header
-                className="site-layout-background"
-                style={{
-                  padding: "0 20px",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  minHeight: "74px",
-                }}
-              >
-                {React.createElement(
-                  collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
-                  {
-                    className: "trigger",
-                    onClick: () => setCollapsed(!collapsed),
-                    style: { fontSize: "18px", cursor: "pointer" },
-                  }
-                )}
-
-                <div
-                  style={{
-                    flex: 1,
-                    display: "flex",
-                    justifyContent: "center",
-                  }}
-                >
-                  <Image
-                    src="/images/banner-utt.png"
-                    alt="Logo"
-                    width={300}
-                    height={100}
-                  />
-                </div>
-              </Header>
+              <HeaderComponent
+                collapsed={collapsed}
+                setCollapsed={setCollapsed}
+              />
 
               <Content
                 className="site-layout-background"

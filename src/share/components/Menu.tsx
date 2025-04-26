@@ -11,8 +11,8 @@ const MenuComponents = () => {
   const router = useRouter();
   const handleMenuClick: MenuProps["onClick"] = ({ key }) => {
     if (key === "1") router.push("/");
-    else if (key === "2") router.push("/utt");
-    else if (key === "3") router.push("/12123");
+    else if (key === "2") router.push("https://utt.edu.vn/");
+    else if (key === "3") router.push("https://utt.edu.vn/tuyensinh");
   };
 
   return (

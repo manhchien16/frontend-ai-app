@@ -6,7 +6,7 @@ export const BOT_RES = {
   SORRY: "Rất tiếc, mình không hiểu câu hỏi của bạn!",
   WAIT: "Đang tìm kiếm câu trả lời...",
   HELLO:
-    "Xin chào, mình là một Ai Chatbot hỗ trợ tuyển sinh của trường Đại Học Công Nghệ Giao Thông Vận Tài, mình có thể giúp gì cho bạn?",
+    "Xin chào, mình là một Ai Chatbot hỗ trợ tuyển sinh của trường Đại Học Công Nghệ Giao Thông Vận Tài, mình có thể giúp gì cho bạn về vấn đề tuyển sinh?",
 };
 
 export const LABELS_MENU = {
