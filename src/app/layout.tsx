@@ -56,7 +56,7 @@ const RootLayout: React.FC<Props> = ({ children }) => {
             >
               <div className="logo p-2">
                 <Image
-                  src="/images/banner-utt.png"
+                  src="/images/banner_utt_2025.png"
                   alt="Logo"
                   width={500}
                   height={200}

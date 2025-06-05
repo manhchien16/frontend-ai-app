@@ -42,7 +42,7 @@ const HeaderComponent = ({ collapsed, setCollapsed }: HeaderProps) => {
           }}
         >
           <Image
-            src="/images/banner-utt.png"
+            src="/images/banner_utt_2025.png"
             alt="Logo"
             width={300}
             height={100}

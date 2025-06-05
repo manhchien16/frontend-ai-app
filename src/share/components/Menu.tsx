@@ -1,5 +1,8 @@
 import { Menu } from "antd";
 import {
+  FacebookOutlined,
+  HomeOutlined,
+  LoginOutlined,
   RobotOutlined,
   SearchOutlined,
   SolutionOutlined,
@@ -13,6 +16,8 @@ const MenuComponents = () => {
     if (key === "1") router.push("/");
     else if (key === "2") router.push("https://utt.edu.vn/");
     else if (key === "3") router.push("https://utt.edu.vn/tuyensinh");
+    else if (key === "4") router.push("https://xettuyen.utt.edu.vn");
+    else if (key === "5") router.push("https://facebook.com/utt.vn");
   };
 
   return (
@@ -22,9 +27,11 @@ const MenuComponents = () => {
       onClick={handleMenuClick}
       defaultSelectedKeys={["1"]}
       items={[
-        { key: "1", icon: <RobotOutlined />, label: "ChatBot Tuyển Sinh" },
-        { key: "2", icon: <SolutionOutlined />, label: "Thông Tin UTT" },
-        { key: "3", icon: <SearchOutlined />, label: "Tra Cứu Tuyển Sinh" },
+        { key: "1", icon: <RobotOutlined />, label: "Chatbot Tư vấn" },
+        { key: "2", icon: <HomeOutlined />, label: "Trang Chủ" },
+        { key: "3", icon: <SolutionOutlined />, label: "Thông Tin Tuyển Sinh" },
+        { key: "4", icon: <LoginOutlined />, label: "Đăng Ký Hồ Sơ Dự Tuyển" },
+        { key: "5", icon: <FacebookOutlined />, label: "Fanpage Chính Thức" },
       ]}
     />
   );
