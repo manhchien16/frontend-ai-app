@@ -39,6 +39,9 @@ const RootLayout: React.FC<Props> = ({ children }) => {
   return (
     <ConfigProvider>
       <html lang="en">
+        <head>
+          <meta name="google" content="notranslate" />
+        </head>
         <body className={inter.className}>
           <Layout style={{ minHeight: "100%" }}>
             <Sider
