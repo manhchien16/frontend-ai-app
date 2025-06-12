@@ -5,6 +5,7 @@ import { Modal, Input, Button } from "antd";
 import type { MessageProps as ChatUIMessageProps } from "@chatui/core";
 import { marked } from "marked";
 import Image from "next/image";
+import { BOT_RES } from "../constants/app";
 
 const ChatUI = dynamic(() => import("@chatui/core"), { ssr: false });
 const Bubble = dynamic(() => import("@chatui/core").then((mod) => mod.Bubble), {
@@ -78,6 +79,15 @@ function ChatBot({
   }>({ visible: false, msgId: null });
   const [comment, setComment] = useState<string>("");
   const [resend, setResend] = useState<string>("");
+
+  useEffect(() => {
+    appendMsg({
+      type: "text",
+      content: { text: BOT_RES.HELLO },
+      avatar: "/images/avatabot.jpeg",
+      position: "left",
+    });
+  }, []);
 
   useEffect(() => {
     if (dataBot && !isFetchingData) {

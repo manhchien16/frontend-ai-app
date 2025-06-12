@@ -12,7 +12,7 @@ const Home: React.FC = () => {
   }
 
   const [dataBot, setDataBot] = useState<BotResponse | any>({
-    bot_response: BOT_RES.HELLO,
+    bot_response: BOT_RES.RECOMMENT,
   });
 
   const fetchData = useCallback(async (data: string) => {
@@ -26,6 +26,7 @@ const Home: React.FC = () => {
 
       setDataBot(res.data);
     } catch (error) {
+      setDataBot({ bot_response: BOT_RES.SORRY });
     } finally {
       setIsFetchingData(false);
     }
