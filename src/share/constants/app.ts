@@ -9,7 +9,7 @@ export const BOT_RES = {
   RECOMMENT:
     "Chatbot tuyển sinh hoạt động ổn định trên các trình duyệt phổ biến như Chrome, Firefox, Edge và IE, cả trên máy tính và thiết bị di động. Vui lòng tắt chế độ dịch tự động Anh-Việt (Google Translate) để tránh nội dung bị hiển thị sai lệch hoặc gây hiểu nhầm trong quá trình tương tác.",
   HELLO:
-    "Xin chào, mình là một Ai Chatbot hỗ trợ tuyển sinh của trường Đại Học Công Nghệ Giao Thông Vận Tài, mình có thể giúp gì cho bạn về vấn đề tuyển sinh?",
+    "Xin chào, mình là một AI Chatbot hỗ trợ tư vấn tuyển sinh của Trường Đại học Công nghệ Giao thông vận tải , mình có thể giúp gì cho bạn về vấn đề tuyển sinh?",
 };
 
 export const LABELS_MENU = {
