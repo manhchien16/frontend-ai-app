@@ -92,9 +92,9 @@ const RootLayout: React.FC<Props> = ({ children }) => {
               >
                 {children}
               </Content>
-              <Footer style={{ textAlign: "center" }}>
+              {/* <Footer style={{ textAlign: "center" }}>
                 MCHIEN Design ©{new Date().getFullYear()} Created by UTT UED
-              </Footer>
+              </Footer> */}
             </Layout>
           </Layout>
         </body>
