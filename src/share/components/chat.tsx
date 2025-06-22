@@ -114,7 +114,7 @@ function ChatBot({
       } else {
         let newMessage = "";
         if (dataBot?.bestQuestion) {
-          newMessage = `**🔹 Câu trả lời cho câu hỏi:**\n "${dataBot.bestQuestion}"\n\n**🔹 Theo thông tin chính thức:**\n${dataBot.bot_response}`;
+          newMessage = `**🔹 Theo thông tin tôi biết:**\n${dataBot.bot_response}`;
         } else {
           newMessage = `${dataBot.bot_response}`;
         }
