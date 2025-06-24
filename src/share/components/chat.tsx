@@ -87,6 +87,13 @@ function ChatBot({
       avatar: "/images/avatabot.jpeg",
       position: "left",
     });
+
+    appendMsg({
+      type: "text",
+      content: { text: BOT_RES.ALERT },
+      avatar: "/images/avatabot.jpeg",
+      position: "left",
+    });
   }, []);
 
   useEffect(() => {
