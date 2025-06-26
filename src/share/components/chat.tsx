@@ -80,21 +80,21 @@ function ChatBot({
   const [comment, setComment] = useState<string>("");
   const [resend, setResend] = useState<string>("");
 
-  useEffect(() => {
-    appendMsg({
-      type: "text",
-      content: { text: BOT_RES.HELLO },
-      avatar: "/images/avatabot.jpeg",
-      position: "left",
-    });
+  // useEffect(() => {
+  //   appendMsg({
+  //     type: "text",
+  //     content: { text: BOT_RES.HELLO },
+  //     avatar: "/images/avatabot.jpeg",
+  //     position: "left",
+  //   });
 
-    appendMsg({
-      type: "text",
-      content: { text: BOT_RES.ALERT },
-      avatar: "/images/avatabot.jpeg",
-      position: "left",
-    });
-  }, []);
+  //   appendMsg({
+  //     type: "text",
+  //     content: { text: BOT_RES.ALERT },
+  //     avatar: "/images/avatabot.jpeg",
+  //     position: "left",
+  //   });
+  // }, []);
 
   useEffect(() => {
     if (dataBot && !isFetchingData) {
